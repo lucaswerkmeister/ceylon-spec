@@ -374,6 +374,10 @@ shared deprecated</programlisting>
                     an annotation type, or that a toplevel function is an annotation
                     constructor.</para>
                 </listitem>
+                <listitem>
+                  <para><literal>inherited</literal> specifies that annotations of
+                  this type are inherited from supertypes.</para>
+                </listitem>
             </itemizedlist>
             
             <para>The following annotation is a hint to the compiler that lets 
@@ -451,6 +455,75 @@ shared deprecated</programlisting>
            
         </section>
     
+    </section>
+    
+    <section id="inherited">
+        <title>Inherited annotations</title>
+        
+        <para>If an annotation type is annotated <literal>inherited</literal>,
+        it is called an <emphasis>inherited annotation type</emphasis>.
+        For an inherited annotation type, there is a difference between the
+        <emphasis>self annotation values</emphasis> and the <emphasis>effective
+        annotation values</emphasis> on a program element: The self annotation
+        values are those that are defined on the program element directly, while
+        the effective annotation values are those that are seen by later phases
+        of the compiler and by the metamodel.</para>
+        
+        <itemizedlist>
+            <listitem>
+                <para>For a sequenced annotation type, the effective annotation values
+                are the union of the self annotation values and the effective annotation
+                values of the program element in all supertypes that declare it.</para>
+            </listitem>
+            <listitem>
+                <para>For an optional annotation type, the effective annotation value
+                is the self annotation value if present, otherwise the unique annotation
+                value of the program element in all supertypes that declare it.</para>
+                <para>If a type inherits multiple annotation values for the program element
+                from its supertypes, it must declare a self annotation value to resolve the
+                ambiguity. (It is however legal to inherit the same annotation instance,
+                declared on the same supertype, via multiple different supertypes. This can
+                happen if the supertypes form a "diamond" shape.)</para>
+            </listitem>
+        </itemizedlist>
+        
+        <para>For example:</para>
+        <programlisting>
+            interface Sup {
+                shared formal anno("text") String text;
+            }
+            interface Sub1 satisfies Sup {}
+            interface Sub2 satisfies Sup {}
+            class Sub(text) satisfies Sub1&amp;Sub2 {
+                shared actual String text;
+            }
+        </programlisting>
+        
+        <para>If <literal>anno</literal> is an annotation constructor for an
+        <literal>inherited</literal> annotation type, then <literal>Sub.text</literal>
+        is considered annotated with <literal>anno("text")</literal> as well.</para>
+        
+        <para>Now, consider the following, alternate definition of <literal>Sub2</literal>:</para>
+        <programlisting>
+            interface Sub2 satisfies Sup {
+                shared actual formal anno("text2") String text;
+            }
+        </programlisting>
+        <itemizedlist>
+            <listitem>
+                <para>If the <literal>anno</literal> annotation type is sequenced, then
+                <literal>Sub.text</literal> is now considered annotated with
+                <literal>anno("text") anno("text2")</literal>.</para>
+            </listitem>
+            <listitem>
+                <para>If the <literal>anno</literal> annotation type is optional, then
+                <literal>Sub.text</literal> is now erroneous, since it inherits both
+                <literal>anno("text")</literal> (via <literal>Sub1</literal>) and
+                <literal>anno("text2")</literal> (via <literal>Sub2</literal>). To resolve
+                the ambiguity, <literal>Sub.text</literal> must be directly annotated with
+                <literal>anno</literal>.</para>
+            </listitem>
+        </itemizedlist>
     </section>
     
     <section id="serialization">
