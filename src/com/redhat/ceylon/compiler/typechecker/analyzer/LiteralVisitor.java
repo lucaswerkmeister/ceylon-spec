@@ -197,7 +197,8 @@ public class LiteralVisitor extends Visitor {
                 result.append(line);
             }
             else {
-                for (int i = 0; i < line.length(); i++) {
+                int i;
+                for (i = 0; i < line.length(); i++) {
                     if (i < indentation) {
                         if (!isWhitespace(line.charAt(i))) {
                             correctlyIndented = false;
@@ -208,6 +209,11 @@ public class LiteralVisitor extends Visitor {
                         result.append(line.substring(indentation));
                         break;
                     }
+                }
+                if (i < indentation) {
+                    // line with only whitespace was too short
+                    correctlyIndented = false;
+                    result.append(line.substring(i));
                 }
             }
             result.append("\n");
