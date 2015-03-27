@@ -4489,6 +4489,7 @@ ELSE_CLAUSE
 
 EXISTS
     :   'exists'
+    |   '∃' // U+2203 THERE EXISTS
     ;
 
 EXTENDS
@@ -4501,6 +4502,7 @@ FINALLY_CLAUSE
 
 FOR_CLAUSE
     :   'for'
+    |   '∀' // U+2200 FOR ALL
     ;
 
 FUNCTION_MODIFIER
@@ -4521,6 +4523,7 @@ IMPORT
 
 IN_OP
     :   'in'
+    |   '∈' // U+2208 ELEMENT OF
     ;
 
 INTERFACE_DEFINITION
@@ -4617,6 +4620,7 @@ ELLIPSIS
 
 RANGE_OP
     :   '..'
+    |   '…' // U+2026 HORIZONTAL ELLIPSIS
     ;
 
 SEGMENT_OP
@@ -4624,7 +4628,8 @@ SEGMENT_OP
     ;
 
 MEMBER_OP
-    :   '.' ;
+    :   '.'
+    ;
 
 LPAREN
     :   '('
@@ -4660,10 +4665,12 @@ COMMA
     
 SPECIFY
     :   '='
+    |   '≔' // U+2254 COLON EQUALS
     ;
 
 COMPUTE
     :   '=>'
+    |   '⇒' // U+21D2 RIGHTWARDS DOUBLE ARROW
     ;
 
 SAFE_MEMBER_OP
@@ -4676,26 +4683,33 @@ OPTIONAL
 
 NOT_OP
     :   '!'
+    |   '¬' // U+00AC NOT SIGN
     ;
 
 COMPLEMENT_OP
     :   '~'
+    |   '∖' // U+2216 SET MINUS
+    |   '∁' // U+2201 COMPLEMENT
     ;
 
 EQUAL_OP
     :   '=='
+    |   '≍' // U+224D EQUIVALENT TO
     ;
 
 IDENTICAL_OP
     :   '==='
+    |   '≡' // U+2261 IDENTICAL TO
     ;
 
 AND_OP
     :   '&&'
+    |   '∧' // U+2227 LOGICAL AND
     ;
 
 OR_OP
     :   '||'
+    |   '∨' // U+2228 LOGICAL OR
     ;
 
 INCREMENT_OP
@@ -4712,30 +4726,39 @@ SUM_OP
 
 DIFFERENCE_OP
     :   '-'
+    |   '−' // U+2212 MINUS SIGN
     ;
 
 SPREAD_OP
-    :    '*.'
+    :   '*.'
     ;
 
 SCALE_OP
-    :    '**'
+    :   '**'
+    |   '∗' // U+2217 ASTERISK OPERATOR
     ;
 
 PRODUCT_OP
     :   '*'
+    |   '⋅' // U+22C5 DOT OPERATOR
+    |   '⨯' // U+2A2F VECTOR OR CROSS PRODUCT
     ;
 
 QUOTIENT_OP
     :   '/'
+    |   '∕' // U+2215 DIVISION SLASH
+    |   '÷' // U+00F7 DIVISION SIGN
+    |   '⁄' // U+2044 FRACTION SLASH
     ;
 
 INTERSECTION_OP
     :   '&'
+    |   '∩' // U+2229 INTERSECTION
     ;
 
 UNION_OP
     :   '|'
+    |   '∪' // U+222A UNION
     ;
 
 REMAINDER_OP
@@ -4744,32 +4767,47 @@ REMAINDER_OP
 
 NOT_EQUAL_OP
     :   '!='
+    |   '≠' // U+2260 NOT EQUAL TO
+    |   '≭' // U+226D NOT EQUIVALENT TO
     ;
 
 LARGER_OP
     :   '>'
+    |   '≩' // U+2269 GREATER-THAN BUT NOT EQUAL TO
+    |   '≰' // U+2270 NEITHER LESS-THAN NOR EQUAL TO
     ;
 
 SMALLER_OP
     :   '<'
+    |   '≨' // U+2268 LESS-THAN BUT NOT EQUAL TO
+    |   '≱' // U+2271 NEITHER GREATER-THAN NOR EQUAL TO
     ;        
 
 LARGE_AS_OP
     :   ('>=' (' ' | '\r' | '\t' | '\f' | '\n')* ~('>' | ']' | ')' | ',' | ' ' | '\r' | '\t' | '\f' | '\n')) 
         => '>='
     |   '>' { $type=LARGER_OP; }
+    |   '≥' // U+2265 GREATER-THAN OR EQUAL TO
+    |   '≧' // U+2267 GREATER-THAN OVER EQUAL TO
+    |   '≮' // U+226E NOT LESS-THAN
     ;
 
 SMALL_AS_OP
     :   '<='
+    |   '≤' // U+2264 LESS-THAN OR EQUAL TO
+    |   '≦' // U+2266 LESS-THAN OVER EQUAL TO
+    |   '≯' // U+226F NOT GREATER-THAN
     ;        
 
 ENTRY_OP
     :   '->'
+    |   '→' // U+2192 RIGHTWARDS ARROW
+    |   '↦' // U+21A6 RIGHTWARDS ARROW FROM BAR
     ;
     
 COMPARE_OP
     :   '<=>'
+    |   '⇔' // U+21D4 LEFT RIGHT DOUBLE ARROW
     ;
     
 POWER_OP
@@ -4782,26 +4820,34 @@ ADD_SPECIFY
 
 SUBTRACT_SPECIFY
     :   '-='
+    |   '−=' // U+2212 MINUS SIGN
     ;
 
 MULTIPLY_SPECIFY
     :   '*='
+    |   '⋅=' // U+22C5 DOT OPERATOR
+    |   '⨯=' // U+2A2F VECTOR OR CROSS PRODUCT
     ;
 
 DIVIDE_SPECIFY
     :   '/='
+    |   '∕=' // U+2215 DIVISION SLASH
+    |   '÷=' // U+00F7 DIVISION SIGN
     ;
 
 INTERSECT_SPECIFY
     :   '&='
+    |   '∩=' // U+2229 INTERSECTION
     ;
 
 UNION_SPECIFY
     :   '|='
+    |   '∪=' // U+222A UNION
     ;
 
 COMPLEMENT_SPECIFY
     :   '~='
+    |   '∖=' // U+2216 SET MINUS
     ;
     
 REMAINDER_SPECIFY
@@ -4810,10 +4856,12 @@ REMAINDER_SPECIFY
 
 AND_SPECIFY
     :   '&&='
+    |   '∧=' // U+2227 LOGICAL AND
     ;
 
 OR_SPECIFY
     :   '||='
+    |   '∨=' // U+2228 LOGICAL OR
     ;
 
 COMPILER_ANNOTATION
@@ -4864,7 +4912,7 @@ fragment
 Letter
     : 'a'..'z' 
     | 'A'..'Z' 
-    | '\u0080'..'\uffff'
+    | '\u0080'..'\u00AB' | '\u00AD'..'\u00F6' | '\u00F8'..'\u1FFF' | '\u2070'..'\u218F' | '\u2300'..'\u29FF' | '\u2b00'..'\uffff'
     ;
 
 fragment
