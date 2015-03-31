@@ -4878,7 +4878,7 @@ AIDENTIFIER :;
 UIDENTIFIER 
     :   IdentifierStart IdentifierPart*
         { int cp = $text.codePointAt(0);
-          if (cp=='_' || Character.isLowerCase(cp)) $type=LIDENTIFIER; }
+          if (cp=='_' || Character.isLowerCase(cp) || cp=='ℕ' || cp=='ℤ' || cp=='ℚ' || cp=='ℝ') $type=LIDENTIFIER; }
     |   UIdentifierPrefix name=IdentifierPart+
         { setText($text.substring(2)); }
     |   LIdentifierPrefix name=IdentifierPart+
